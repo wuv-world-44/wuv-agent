@@ -1,0 +1,69 @@
+# ─────────────────────────────────────────────
+# wuv-agent Configuration
+# Pre-configured for api.wuv.ai + S.I.M.
+# Edit WUV_API_KEY with your personal key.
+# ─────────────────────────────────────────────
+
+agent:
+  name: "wuv Companion"
+  persona: |
+    You are the user's personal S.I.M. (Soul Intelligence Model) companion.
+    You carry memory of who they are, what they care about, and where they're going.
+    You speak with warmth, clarity, and purpose. Never generic. Always present.
+  timezone: "America/New_York"
+
+# ── Model Provider ─────────────────────────────
+provider:
+  name: wuv
+  baseUrl: https://api.wuv.ai/v1
+  apiKey: "${WUV_API_KEY}"
+  model: wuv-sim-v1
+  fallbackModel: wuv-sim-fast
+  maxTokens: 4096
+  temperature: 0.7
+  stream: true
+
+# ── Model Tiers ────────────────────────────────
+# Uncomment to override default model:
+# model: wuv-sim-fast     # lightweight, fast
+# model: wuv-sim-v1       # full S.I.M. memory (default)
+# model: wuv-sim-pro      # max context
+# model: wuv-74           # direct 74-agent access
+
+# ── Channels (configure your own below) ────────
+channels:
+  telegram:
+    enabled: false
+    token: "${TELEGRAM_BOT_TOKEN}"
+    dmPolicy: pairing
+  discord:
+    enabled: false
+    token: "${DISCORD_BOT_TOKEN}"
+    dmPolicy: pairing
+  whatsapp:
+    enabled: false
+    dmPolicy: pairing
+  voice:
+    enabled: false
+    wakeWord: "hey wuv"
+    tts: system
+
+# ── Skills ─────────────────────────────────────
+skills:
+  - wuv-memory-sync
+  - wuv-ark-companion
+  - wuv-dream-tracker
+  - wuv-family-pulse
+  - wuv-focus-mode
+
+# ── Memory Sync ────────────────────────────────
+memory:
+  autoSync: true
+  syncAfterMessages: 5
+  endpoint: "${WUV_API_KEY_BASE}/sim/ingest"
+
+# ── Gateway ────────────────────────────────────
+gateway:
+  port: 18789
+  daemon: true
+  logLevel: info
