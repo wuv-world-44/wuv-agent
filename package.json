@@ -1,0 +1,23 @@
+{
+  "name": "wuv-agent",
+  "version": "1.0.0",
+  "description": "wuv Agent — Personal S.I.M. companion layer for wuv OS, powered by OpenClaw",
+  "homepage": "https://wuv.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wuv-world-44/wuv-agent"
+  },
+  "license": "MIT",
+  "keywords": ["wuv", "sim", "ai-agent", "openclaw", "personal-ai", "wuv-os"],
+  "scripts": {
+    "install:agent": "bash installer/install.sh",
+    "start": "openclaw gateway --config config/wuv-config.yaml --port 18789",
+    "dev": "openclaw gateway --config config/wuv-config.yaml --port 18789 --verbose"
+  },
+  "peerDependencies": {
+    "openclaw": "latest"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
