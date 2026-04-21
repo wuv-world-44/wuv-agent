@@ -1,0 +1,6 @@
+node_modules/
+.env
+*.log
+.openclaw/
+dist/
+.DS_Store
