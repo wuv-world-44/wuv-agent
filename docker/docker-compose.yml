@@ -1,0 +1,35 @@
+# ─────────────────────────────────────────────────────────────
+# wuv-agent Docker Deployment
+# For server-side deployments (not wuv OS — use install.sh for device installs)
+# ─────────────────────────────────────────────────────────────
+version: '3.8'
+
+services:
+  wuv-agent:
+    image: node:22-slim
+    container_name: wuv-agent
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./config:/app/config:ro
+      - wuv-agent-data:/root/.openclaw
+    environment:
+      WUV_API_KEY: ${WUV_API_KEY}
+      WUV_MODEL: ${WUV_MODEL:-wuv-sim-v1}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN:-}
+      NODE_ENV: production
+    command: >
+      sh -c "npm install -g openclaw@latest &&
+             cp /app/config/wuv-config.yaml /root/.openclaw/config.yaml &&
+             openclaw gateway --port 18789 --verbose"
+    ports:
+      - "18789:18789"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:18789/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  wuv-agent-data:
